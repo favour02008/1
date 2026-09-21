@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Favour Study</title><link rel="stylesheet" href="style.css"></head>
+<body><div class="app">
+<header><div><p class="eyebrow">📚 YOUR SHS STUDY COMPANION</p><h1>Favour Study</h1><p>Learn smarter. Practice daily. Prepare for WASSCE.</p></div><div class="streak">🔥 <b>7</b><small>day streak</small></div></header>
+<section class="hero"><div><span class="pill">FREE PLAN</span><h2>Keep your study streak alive! 🎯</h2><p>Practice questions, track your progress and build confidence one topic at a time.</p><button onclick="showPremium()">⭐ Go Premium</button></div><div class="orb">🧠</div></section>
+<h2 class="section-title">Choose a subject</h2><div class="subjects">
+<button onclick="practice('Core Mathematics','Solve: 3x + 5 = 20')"><span>📐</span>Core Mathematics<small>24 topics</small></button>
+<button onclick="practice('Physics','What is the SI unit of force?')"><span>⚡</span>Physics<small>18 topics</small></button>
+<button onclick="practice('Chemistry','Which particle has a negative charge?')"><span>🧪</span>Chemistry<small>21 topics</small></button>
+<button onclick="practice('Biology','Which organelle is responsible for photosynthesis?')"><span>🧬</span>Biology<small>20 topics</small></button>
+<button onclick="practice('English','Identify the noun in: The student opened the book.')"><span>📖</span>English<small>16 topics</small></button>
+<button onclick="practice('Computing','What does CPU stand for?')"><span>💻</span>Computing<small>15 topics</small></button></div>
+<section class="progress"><div><h2>Your progress</h2><p>Keep going — consistency beats cramming.</p></div><div class="bar"><div></div></div><b>68%</b></section>
+<nav><button class="active">🏠<small>Home</small></button><button onclick="showPractice()">📝<small>Practice</small></button><button onclick="showPremium()">⭐<small>Premium</small></button><button onclick="alert('Profile and settings coming soon.')">👤<small>Profile</small></button></nav>
+</div><div id="modal" class="modal hidden"><div class="card" id="modalContent"></div></div><script src="game.js"></script></body></html>
