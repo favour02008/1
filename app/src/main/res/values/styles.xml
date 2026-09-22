@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:fontFamily">sans</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:colorAccent">#7B2CFF</item>
-        <item name="android:navigationBarColor">#10152B</item>
-        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:colorAccent">#1565C0</item>
+        <item name="android:navigationBarColor">#000000</item>
     </style>
 </resources>
