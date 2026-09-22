@@ -1,14 +1,13 @@
 workflows:
   android-debug:
-    name: Favour's Adventure Android APK
+    name: LG Cast Android APK
     max_build_duration: 30
     instance_type: mac_mini_m2
     scripts:
       - name: Set Android SDK location
         script: echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
       - name: Prepare Gradle wrapper
-        script: |
-          gradle wrapper --gradle-version 8.7
+        script: gradle wrapper --gradle-version 8.7
       - name: Build Android APK
         script: ./gradlew assembleDebug
     artifacts:
