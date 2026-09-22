@@ -21,11 +21,11 @@ public class UpnpClient {
             socket.setSoTimeout(500);
             String[] targets = {"urn:schemas-upnp-org:device:MediaRenderer:1", "ssdp:all"};
             for (String st : targets) {
-                String request = "M-SEARCH * HTTP/1.1\\r\\n" +
-                        "HOST: " + SSDP + ":" + PORT + "\\r\\n" +
-                        "MAN: \\"ssdp:discover\\"\\r\\n" +
-                        "MX: 2\\r\\n" +
-                        "ST: " + st + "\\r\\n\\r\\n";
+                String request = "M-SEARCH * HTTP/1.1\r\n" +
+                        "HOST: " + SSDP + ":" + PORT + "\r\n" +
+                        "MAN: \"ssdp:discover\"\r\n" +
+                        "MX: 2\r\n" +
+                        "ST: " + st + "\r\n\r\n";
                 byte[] data = request.getBytes(StandardCharsets.UTF_8);
                 socket.send(new DatagramPacket(data, data.length, InetAddress.getByName(SSDP), PORT));
             }
@@ -64,7 +64,6 @@ public class UpnpClient {
             HttpURLConnection c = (HttpURLConnection) u.openConnection();
             c.setConnectTimeout(2500);
             c.setReadTimeout(2500);
-            c.setRequestMethod("GET");
             String xml = read(c.getInputStream());
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
                     .parse(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
@@ -99,46 +98,46 @@ public class UpnpClient {
         BufferedReader r = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
         StringBuilder b = new StringBuilder();
         String line;
-        while ((line = r.readLine()) != null) b.append(line).append('\\n');
+        while ((line = r.readLine()) != null) b.append(line).append('\n');
         r.close();
         return b.toString();
     }
 
     public static boolean setMedia(UpnpDevice d, String url, String mime) {
-        String meta = "<DIDL-Lite xmlns:didl=\\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\\" xmlns:dc=\\"http://purl.org/dc/elements/1.1/\\" xmlns:upnp=\\"urn:schemas-upnp-org:metadata-1-0/upnp/\\">" +
-                "<item id=\\"0\\" parentID=\\"-1\\" restricted=\\"1\\"><dc:title>LG Cast Video</dc:title>" +
-                "<upnp:class>object.item.videoItem</upnp:class><res protocolInfo=\\"http-get:*:" + esc(mime) + ":*\\">" +
+        String meta = "<DIDL-Lite xmlns:didl=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\">" +
+                "<item id=\"0\" parentID=\"-1\" restricted=\"1\"><dc:title>LG Cast Video</dc:title>" +
+                "<upnp:class>object.item.videoItem</upnp:class><res protocolInfo=\"http-get:*:" + esc(mime) + ":*\">" +
                 esc(url) + "</res></item></DIDL-Lite>";
-        String body = "<u:SetAVTransportURI xmlns:u=\\"" + d.serviceType + "\\">" +
+        String body = "<u:SetAVTransportURI xmlns:u=\"" + d.serviceType + "\">" +
                 "<InstanceID>0</InstanceID><CurrentURI>" + esc(url) + "</CurrentURI>" +
                 "<CurrentURIMetaData>" + esc(meta) + "</CurrentURIMetaData></u:SetAVTransportURI>";
         return soap(d, "SetAVTransportURI", body);
     }
 
     public static boolean play(UpnpDevice d) {
-        return soap(d, "Play", "<u:Play xmlns:u=\\"" + d.serviceType + "\\"><InstanceID>0</InstanceID><Speed>1</Speed></u:Play>");
+        return soap(d, "Play", "<u:Play xmlns:u=\"" + d.serviceType + "\"><InstanceID>0</InstanceID><Speed>1</Speed></u:Play>");
     }
 
     public static boolean pause(UpnpDevice d) {
-        return soap(d, "Pause", "<u:Pause xmlns:u=\\"" + d.serviceType + "\\"><InstanceID>0</InstanceID></u:Pause>");
+        return soap(d, "Pause", "<u:Pause xmlns:u=\"" + d.serviceType + "\"><InstanceID>0</InstanceID></u:Pause>");
     }
 
     public static boolean stop(UpnpDevice d) {
-        return soap(d, "Stop", "<u:Stop xmlns:u=\\"" + d.serviceType + "\\"><InstanceID>0</InstanceID></u:Stop>");
+        return soap(d, "Stop", "<u:Stop xmlns:u=\"" + d.serviceType + "\"><InstanceID>0</InstanceID></u:Stop>");
     }
 
     private static boolean soap(UpnpDevice d, String action, String body) {
         try {
-            String envelope = "<?xml version=\\"1.0\\" encoding=\\"utf-8\\"?>" +
-                    "<s:Envelope xmlns:s=\\"http://schemas.xmlsoap.org/soap/envelope/\\" s:encodingStyle=\\"http://schemas.xmlsoap.org/soap/encoding/\\">" +
+            String envelope = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+                    "<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">" +
                     "<s:Body>" + body + "</s:Body></s:Envelope>";
             HttpURLConnection c = (HttpURLConnection) new URL(d.controlUrl).openConnection();
             c.setConnectTimeout(4000);
             c.setReadTimeout(7000);
             c.setDoOutput(true);
             c.setRequestMethod("POST");
-            c.setRequestProperty("Content-Type", "text/xml; charset=\\"utf-8\\"");
-            c.setRequestProperty("SOAPAction", "\\"" + d.serviceType + "#" + action + "\\"");
+            c.setRequestProperty("Content-Type", "text/xml; charset=\"utf-8\"");
+            c.setRequestProperty("SOAPAction", "\"" + d.serviceType + "#" + action + "\"");
             byte[] bytes = envelope.getBytes(StandardCharsets.UTF_8);
             c.setFixedLengthStreamingMode(bytes.length);
             try (OutputStream out = c.getOutputStream()) { out.write(bytes); }
