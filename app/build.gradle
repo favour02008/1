@@ -1,16 +1,17 @@
 plugins { id 'com.android.application' }
 
 android {
-    namespace 'com.favour.adventure'
+    namespace 'com.favour.cast'
     compileSdk 35
-
     defaultConfig {
-        applicationId 'com.favour.adventure'
+        applicationId 'com.favour.cast'
         minSdk 23
         targetSdk 35
         versionCode 1
         versionName '1.0'
     }
 }
-
-dependencies {}
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+}
